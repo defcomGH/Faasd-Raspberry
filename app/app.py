@@ -13,19 +13,21 @@ db.init_app(app)
 import jyserver.Flask as jsf
 
 ## Variables
-urltemp = 'http://192.168.1.75:8080/function/temperatura'
-urlhum = 'http://192.168.1.75:8080/function/humedad'
+# urltemp = 'http://192.168.1.75:8080/function/temperatura'
+# urlhum = 'http://192.168.1.75:8080/function/humedad'
+urltemp = 'http://127.0.0.1:8000/temperatura' #url de fastApi
+urlhum = 'http://127.0.0.1:8000/humedad' #url de fastApi
 
 @jsf.use(app)
 class App:
     def __init__(self):
         self.count = -1 #Variable para leer temperatura=0, humedad=1, ninguna=-1
-        #temp = requests.get(urltemp) # Llamar a funcion en rpi con get
-        #hum = requests.get(urlhum) # Llamar a funcion en rpi con get
+        temp = requests.get(urltemp) # Llamar a funcion en rpi con get
+        hum = requests.get(urlhum) # Llamar a funcion en rpi con get
 
     def delete(self):
         self.count= -1
-    
+
     def getTemperatura(self):
         self.count = 0
         contador= 2
@@ -48,7 +50,7 @@ class App:
                     contador+=1
             else:
                 print('Deployeando funcion')
-                
+
             time.sleep(5)
 
     def getHumedad(self):
