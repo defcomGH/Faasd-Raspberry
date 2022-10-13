@@ -1,15 +1,15 @@
 {% extends './layout.html' %}
 
-{% block title %} 
+{% block title %}
 {{ data.titulo }}
 {% endblock %}
 
 {% block body %}
 
 <body>
-    
+
     <div class="containernuestro">
-        
+
         <div class="navbarnuestra" style="overflow: hidden">
             <nav class="navbar navbar-dark" style="padding: 0;">
                 <div class="container-fluid">
@@ -39,13 +39,13 @@
         </div>
         <!--Waves end-->
     </div>
-    
+
     <div id="sidebar">
-        
+
         <br><br>
         <h2 style="color: white; font-size: 300%;"> FUNCIONES </h2>
         <br><br>
-        
+
         <div class="contenedor">
             <hr style="color: #e0ebf3; margin: 0; width: 90%; padding: 0.5%;">
             <button class="boton cinco" onclick="server.getTemperatura()">  <!-- Agrega funcionalidad al boton (funcion de python) -->
@@ -67,26 +67,26 @@
             </button>
             <hr style="color: #e0ebf3; margin: 0; width: 90%; padding: 0.5%;">
         </div>
-        
+
     </div>
-    
+
     <main>
         <div style="color: white" id="DisplayHome"> <!-- Agrega id al bloque -->
-            
+
             <h3 class="c-section__title"><span>Proyecto N12</span></h3>
             <h4 class="c-section__subtitle"><span>Hacer de una Raspberry una faasd</span></h4>
             <ul class="c-services">
                 <li class="c-services__item" onclick="window.open('https://www.openfaas.com/');">
                     <h3>OpenFaaS</h3>
-                    <p>OpenFaaS es un marco de código abierto que permite implementar la arquitectura sin servidor en Kubernetes usando 
-                        contenedores de Docker para almacenar y ejecutar funciones. Permite que cualquier programa se encapsule como un contenedor y se 
+                    <p>OpenFaaS es un marco de código abierto que permite implementar la arquitectura sin servidor en Kubernetes usando
+                        contenedores de Docker para almacenar y ejecutar funciones. Permite que cualquier programa se encapsule como un contenedor y se
                         administre como una función a través de la línea de comandos o la IU web integrada.</p>
                     </li>
                     <li class="c-services__item" onclick="window.open('https://github.com/openfaas/faasd');">
                         <h3>faasd</h3>
-                        <p>Faasd ofrece mucho de los beneficios de los containers y OpenFaaS, pero sin la complejidad y los costos 
-                            operacionales de Kubernetes. Se puede decir que es una versión más pequeña de OpenFaaS, diseñada para correr 
-                            en un single host sin la necesidad de ningún clustering, por lo que es ideal para implementación de la tecnología 
+                        <p>Faasd ofrece mucho de los beneficios de los containers y OpenFaaS, pero sin la complejidad y los costos
+                            operacionales de Kubernetes. Se puede decir que es una versión más pequeña de OpenFaaS, diseñada para correr
+                            en un single host sin la necesidad de ningún clustering, por lo que es ideal para implementación de la tecnología
                             function as a service dentro de una raspberry, debido a los bajos requerimientos computacionales.</p>
                         </li>
                         <li style="grid-template-columns: 1fr;" class="c-services__item">
@@ -109,17 +109,17 @@
                                             <h4>Zabalza Iñaki</h4>
                                         </li>
                                     </ol>
-                                </ul>                            
+                                </ul>
                             </p>
                         </li>
-                        
+
                     </ul>
                 </div>
-                
+
                 <div style="display: none;" id="DisplayTemperatura"> <!-- Agrega id al bloque -->
                     <br>
                     <div class= "contenedorBloques">
-                        <div class="bloqueIzquierda">   <!--Bloque izquierda  VER NOMBRE--> 
+                        <div class="bloqueIzquierda">   <!--Bloque izquierda  VER NOMBRE-->
                             <h1> Temperatura </h1>
                         </div>
                         <div id="wrapper" class="bloqueDerecha">	<!--Bloque derecha  VER NOMBRE-->
@@ -133,11 +133,11 @@
                     <br>
                     <div id="chartdivTemperatura" style="display: none; width: 80%; height: 250px; background-color: #FFFFFF; margin:auto;" ></div>
                 </div>
-                
+
                 <div style="display: none;" id="DisplayHumedad"> <!-- Agrega id al bloque -->
                     <br>
                     <div class= "contenedorBloques">
-                        <div class="bloqueIzquierda">   <!--Bloque izquierda  VER NOMBRE--> 
+                        <div class="bloqueIzquierda">   <!--Bloque izquierda  VER NOMBRE-->
                             <h1> Humedad </h1>
                         </div>
                         <div id="wrapper" class="bloqueDerecha">	<!--Bloque derecha  VER NOMBRE-->
@@ -151,13 +151,13 @@
                     <br>
                     <div id="chartdivHumedad" style="display: none; width: 80%; height: 250px; background-color: #FFFFFF; margin:auto;" ></div>
                 </div>
-                
+
                 <!-- <img src="https://powerbicdn.azureedge.net/mediahandler/blog/media/PowerBI/blog/c763c519-582d-49d8-b3ac-3ac76a10a377.gif" alt="Funny image" width="70%"> -->
-                
+
             </main>
-            
+
         </div>
-        
+
     </body>
-    
+
     {% endblock %}
