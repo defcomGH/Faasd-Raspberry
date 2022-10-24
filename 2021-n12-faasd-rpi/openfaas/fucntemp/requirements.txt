@@ -1,0 +1,3 @@
+Adafruit_DHT
+install RPi.GPIO
+install board
