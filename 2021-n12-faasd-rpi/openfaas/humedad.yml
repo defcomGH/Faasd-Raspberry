@@ -6,5 +6,5 @@ functions:
   humedad:
     lang: python3
     handler: ./humedad
-    image: juanidufourc/humedad:latest
+    image: evaristo00/humedad:latest
 

@@ -1,5 +1,5 @@
 #faas build -f functemp.yml --shrinkwrap
-varDirectory=temperatura
+varDirectory=humedad
 sudo buildctl build \
     --frontend dockerfile.v0 \
     --local context=build/$varDirectory \
