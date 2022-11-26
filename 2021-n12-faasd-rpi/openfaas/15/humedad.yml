@@ -3,8 +3,8 @@ provider:
   name: openfaas
   gateway: http://127.0.0.1:8080
 functions:
-  temperatura15:
+  humedad:
     lang: python3
-    handler: ./temperatura15
-    image: evaristo00/temperatura15:latest
+    handler: ./humedad
+    image: evaristo00/humedad15:latest
 
