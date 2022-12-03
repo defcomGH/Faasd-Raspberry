@@ -3,20 +3,37 @@ import requests
 import time
 import db
 import random
+from flask import Flask, render_template, request, redirect, url_for
+from flask_login import LoginManager, logout_user, current_user, login_user, login_required
+from werkzeug.urls import url_parse
+
+from forms import SignupForm, PostForm, LoginForm
+from models import users, get_user, User
 
 app= Flask(__name__)
+app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+posts = []
+
+#Que base de datos ni que base de datos acá hardcodeamos los users y passwords
+user = User(len(users) + 1, "Señor x", "Taller", "tdp2")
+users.append(user)
+
+
 
 # Iniciar base de datos
 db.init_app(app)
+
 
 # JYSERVER
 import jyserver.Flask as jsf
 
 ## Variables
-urltemp = 'http://192.168.43.181:8080/function/temperatura'
-urlhum = 'http://192.168.43.181:8080/function/humedad'
+#urltemp = 'http://192.168.222.202:80/function/temperatura'
+#urlhum = 'http://192.168.222.202:80/function/humedad'
 
-@jsf.use(app)
+"""@jsf.use(app)
 class App:
     def __init__(self):
         self.count = -1 #Variable para leer temperatura=0 o humedad=1 o ninguna=-1
@@ -33,6 +50,7 @@ class App:
             response = requests.get(urltemp)    # Llamar a funcion en rpi con get y obtener el JSON
             if (str(response)=='<Response [200]>'):
                 temp= response.json()
+                print(temp)
                 db.add_temp(temp['valor'])               # Agregar valor a la base de datos
 
                 self.js.setearTemperatura(temp['valor'])                                               # Actualizar termometro
@@ -44,7 +62,7 @@ class App:
                 else:
                     contador+=1
             else:
-                print('Deployeando funcion')
+                print('Deployeando funcion') 
                 
             time.sleep(5)
 
@@ -67,17 +85,58 @@ class App:
                 print('Deployeando funcion')
                 
             time.sleep(5)
+  """
+
+
+@app.route("/")
+def default():
+    return redirect(url_for('login')) 
+
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    for user in users:
+        if user.id == int(user_id):
+            return user
+    return None
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = get_user(form.email.data)
+        if user is not None and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('index')
+            return redirect(next_page)
+    return render_template('login_form.html', form=form)
+
+#Por si quieren implementar botón de logout
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 # Ruta para el Home (usando decorator)
-@app.route("/")
+@app.route("/index")
 def index():
 
-    App.count=-1 # Hacer no visible ambos bloques temperatura y humedad
+    #App.count=-1 # Hacer no visible ambos bloques temperatura y humedad
+    
+    
+    if not(current_user.is_authenticated):
+        return redirect(url_for('login'))
 
     data={
         'titulo':'RPI FAASD',
     }
-    return App.render(render_template('index.html',data=data))
+    return render_template('index.html',data=data)
 
 # app.add_url_rule("/", "", temperatura.index, methods = ['GET'])
 
