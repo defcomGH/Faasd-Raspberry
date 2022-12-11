@@ -13,8 +13,8 @@ db.init_app(app)
 import jyserver.Flask as jsf
 
 ## Variables
-urltemp = 'http://192.168.43.181:8080/function/temperatura'
-urlhum = 'http://192.168.43.181:8080/function/humedad'
+urltemp = 'http://localhost:80/function/temperatura'
+urlhum = 'http://localhost:80/function/humedad'
 
 @jsf.use(app)
 class App:
@@ -31,11 +31,11 @@ class App:
         self.js.document.getElementById("DisplayTemperatura").style.display='block' # Hacer visible el bloque temperatura
         while (self.count==0):                  # Mientras siga en la seccion temperatura
             response = requests.get(urltemp)    # Llamar a funcion en rpi con get y obtener el JSON
+            print(requests.get(urltemp).json()['entero'])
             if (str(response)=='<Response [200]>'):
                 temp= response.json()
-                db.add_temp(temp['valor'])               # Agregar valor a la base de datos
-
-                self.js.setearTemperatura(temp['valor'])                                               # Actualizar termometro
+                db.add_temp(temp['entero'])               # Agregar valor a la base de datos
+                self.js.setearTemperatura(temp['entero'])                                               # Actualizar termometro
                 if (contador==2):
                     temperaturas= db.ultimosdiez('temperatura')                                         # Obtener valores historicos
                     self.js.actualizarChart(temperaturas,'chartdivTemperatura')                         # Actualizar el grafico
@@ -55,13 +55,14 @@ class App:
         self.js.document.getElementById("DisplayHumedad").style.display='block'     # Hacer visible el bloque humedad
         while (self.count==1):                  # Mientras siga en la seccion humedad
             response = requests.get(urlhum)     # Llamar a funcion en rpi con get y obtener el JSON
+            print(requests.get(urlhum).json())
             if (str(response)=='<Response [200]>'):
                 hum= response.json()
-                db.add_hum(hum['valor'])                 # Agregar valor a la base de datos
+                db.add_hum(hum['entero'])                 # Agregar valor a la base de datos
 
                 humedades= db.ultimosdiez('humedad')                                        # Obtener valores historicos
                 self.js.actualizarChart(humedades,'chartdivHumedad')                        # Actualizar el grafico
-                self.js.setearHumedad(hum['valor'])                                        # Actualizo termometro
+                self.js.setearHumedad(hum['entero'])                                        # Actualizo termometro
                 self.js.document.getElementById("chartdivHumedad").style.display='block'    # Hacer visible el grafico
             else:
                 print('Deployeando funcion')
